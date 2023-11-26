@@ -26,7 +26,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'docker rm achistar-project'
+                    sh 'docker rm -f achistar-project || true'
                     docker.image('turrence/archistar-project').run('-d -it -p 3000:3000 --name achistar-project')
                 }
             }
