@@ -1,14 +1,25 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('docker-credentials')
+    }
+
     stages {
-        stage('Build') {
+        stage('Build and Push') {
             steps {
                 script {
-                    def dockerImage = docker.build('turrence/archistar-project')
-                    docker.withRegistry('https://registry-1.docker.io/v2/', 'docker-hub-credentials') {
-                        dockerImage.push()
-    		        }
+                    // Use withCredentials to securely pass Docker Hub credentials
+                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
+                        // Build Docker image
+                        sh 'docker build -t turrence/archistar-project .'
+
+                        // Login to Docker Hub
+                        sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+
+                        // Push Docker image to Docker Hub
+                        sh 'docker push turrence/archistar-project'
+                    }
                 }
             }
         }
