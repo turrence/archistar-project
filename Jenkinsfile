@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     sh 'docker rm achistar-project'
-                    docker.image('turrence/archistar-project').run('-it -p 8081:8081 --name achistar-project')
+                    docker.image('turrence/archistar-project').run('-d -it -p 3000:3000 --name achistar-project')
                 }
             }
         }
