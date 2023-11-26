@@ -26,7 +26,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    docker.image('turrence/archistar-project').run('-p 8080:8080 --name achistar-project')
+                    docker.image('turrence/archistar-project').run('-p 8081:8081 --name achistar-project')
                 }
             }
         }
