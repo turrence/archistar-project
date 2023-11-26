@@ -6,7 +6,9 @@ pipeline {
             steps {
                 script {
                     def dockerImage = docker.build('turrence/archistar-project')
-                    dockerImage.push()
+                    docker.withRegistry('https://registry-1.docker.io/v2/', 'docker-hub-credentials') {
+                        dockerImage.push()
+    		        }
                 }
             }
         }
