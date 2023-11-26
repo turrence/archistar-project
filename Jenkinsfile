@@ -15,7 +15,7 @@ pipeline {
                         sh 'docker build -t turrence/archistar-project .'
 
                         // Login to Docker Hub
-                        sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+                        sh 'echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin'
 
                         // Push Docker image to Docker Hub
                         sh 'docker push turrence/archistar-project'
